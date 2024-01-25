@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
 		"build": "parcel build src/index.html",
-		"build-gh": "parcel build src/index.html --out-dir dist --public-url /asteroids-template-phaser/",
+		"build-gh": "parcel build src/index.html --dist-dir dist --public-url /asteroids-template-phaser/",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "supertommy",
@@ -18,7 +18,7 @@
 	"devDependencies": {
 		"parcel": "^2.11.0",
 		"parcel-plugin-clean-easy": "^1.0.2",
-		"parcel-plugin-static-files-copy": "^2.6.0",
+		"parcel-reporter-static-files-copy": "^1.5.3",
 		"tslib": "^1.11.1",
 		"typescript": "^3.8.3"
 	},
