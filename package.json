@@ -7,17 +7,13 @@
 		"build": "parcel build src/index.html --dist-dir dist",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "supertommy",
+	"author": "maria-mcparland",
 	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ourcade/phaser3-parcel-template.git"
-	},
-	"homepage": "https://github.com/ourcade/phaser3-parcel-template",
 	"devDependencies": {
 		"parcel": "^2.11.0",
 		"parcel-plugin-clean-easy": "^1.0.2",
 		"parcel-reporter-static-files-copy": "^1.5.3",
+		"process": "^0.11.10",
 		"tslib": "^1.11.1",
 		"typescript": "^3.8.3"
 	},
