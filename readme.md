@@ -1,15 +1,8 @@
-# Asteroids Template
-> A Work-in-Progress Asteroids Template for Phaser 3
-
-![License](https://img.shields.io/badge/license-MIT-green)
+# Asteroids Game
 
 ## Overview
 
 A simple Asteroids template designed for maintainability and to be expandable with custom functionality. Written in TypeScript.
-
-[Learn more about this template here and get access to a free email course to learn how to make it from scratch!](https://ourcade.co/templates/asteroids-template)
-
-[Play the demo here](https://ourcade.github.io/asteroids-template-phaser/)
 
 ## Quick Start
 
@@ -17,6 +10,14 @@ A simple Asteroids template designed for maintainability and to be expandable wi
 npm install
 npm run start
 ```
+
+## Originally Created from
+
+[https://github.com/ourcade/asteroids-template-phaser](https://github.com/ourcade/asteroids-template-phaser)
+
+[Learn more about this template here and get access to a free email course to learn how to make it from scratch!](https://ourcade.co/templates/asteroids-template)
+
+[Play the demo here](https://ourcade.github.io/asteroids-template-phaser/)
 
 ## License
 

@@ -1,182 +1,180 @@
-import Phaser from 'phaser'
-import ProjectileModule from './ProjectileModule'
+import Phaser from "phaser";
+import ProjectileModule from "./ProjectileModule";
 
-import throttle from '~/decorators/throttle'
-import IProjectile from '~/types/IProjectile'
+import throttle from "../decorators/throttle";
+import IProjectile from "../types/IProjectile";
 
-declare global
-{
-	interface IPlayerShip extends Phaser.Physics.Arcade.Sprite
-	{
-		configure(config: IPlayerShipConfig): IPlayerShip
-		useCircleCollider(radius?: number, offsetX?: number, offsetY?: number): IPlayerShip
-		useSquareCollider(width: number): IPlayerShip
-		useScaledCollider(scaleFactor: number): IPlayerShip
+declare global {
+  interface IPlayerShip extends Phaser.Physics.Arcade.Sprite {
+    configure(config: IPlayerShipConfig): IPlayerShip;
+    useCircleCollider(
+      radius?: number,
+      offsetX?: number,
+      offsetY?: number
+    ): IPlayerShip;
+    useSquareCollider(width: number): IPlayerShip;
+    useScaledCollider(scaleFactor: number): IPlayerShip;
 
-		setProjectileModule(laserModule: ProjectileModule): void
+    setProjectileModule(laserModule: ProjectileModule): void;
 
-		fire(): IProjectile | null
+    fire(): IProjectile | null;
 
-		update(dt: number): void
-	}
+    update(dt: number): void;
+  }
 }
 
-export interface IPlayerShipConfig
-{
-	acceleration?: number
-	turnSpeed?: number
-	colliderRadius?: number
-	drag?: number
+export interface IPlayerShipConfig {
+  acceleration?: number;
+  turnSpeed?: number;
+  colliderRadius?: number;
+  drag?: number;
 }
 
-const DefaultAcceleration = 5
-const DefaultTurnSpeed = 2
-const DefaultColliderRadius = 50
-const DefaultDrag = 0.995
+const DefaultAcceleration = 5;
+const DefaultTurnSpeed = 2;
+const DefaultColliderRadius = 50;
+const DefaultDrag = 0.995;
 
-export default class PlayerShip extends Phaser.Physics.Arcade.Sprite implements IPlayerShip
+export default class PlayerShip
+  extends Phaser.Physics.Arcade.Sprite
+  implements IPlayerShip
 {
-	private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys
-	private fireKey: Phaser.Input.Keyboard.Key
+  private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
+  private fireKey: Phaser.Input.Keyboard.Key;
 
-	private acceleration = DefaultAcceleration
-	private turnSpeed = DefaultTurnSpeed
-	private colliderRadius = DefaultColliderRadius
+  private acceleration = DefaultAcceleration;
+  private turnSpeed = DefaultTurnSpeed;
+  private colliderRadius = DefaultColliderRadius;
 
-	private projectileModule?: ProjectileModule
+  private projectileModule?: ProjectileModule;
 
-	constructor(scene: Phaser.Scene, x: number, y: number, texture: string)
-	{
-		super(scene, x, y, texture)
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
+    super(scene, x, y, texture);
 
-		this.cursorKeys = scene.input.keyboard.createCursorKeys()
-		this.fireKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-	}
+    this.cursorKeys = scene.input.keyboard.createCursorKeys();
+    this.fireKey = scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+  }
 
-	configure(config: IPlayerShipConfig)
-	{
-		this.turnSpeed = config.turnSpeed || DefaultTurnSpeed
-		this.acceleration = config.acceleration || DefaultAcceleration
-		this.colliderRadius = config.colliderRadius || DefaultColliderRadius
-		const body = this.body as Phaser.Physics.Arcade.Body
+  configure(config: IPlayerShipConfig) {
+    this.turnSpeed = config.turnSpeed || DefaultTurnSpeed;
+    this.acceleration = config.acceleration || DefaultAcceleration;
+    this.colliderRadius = config.colliderRadius || DefaultColliderRadius;
+    const body = this.body as Phaser.Physics.Arcade.Body;
 
-		const drag = config.drag || DefaultDrag
-		body.setDrag(drag, drag)
+    const drag = config.drag || DefaultDrag;
+    body.setDrag(drag, drag);
 
-		return this
-	}
+    return this;
+  }
 
-	useCircleCollider(radius: number | undefined, offsetX = 0, offsetY = 0)
-	{
-		const r = radius || this.colliderRadius
-		this.body.setCircle(r, offsetX, offsetY)
+  useCircleCollider(radius: number | undefined, offsetX = 0, offsetY = 0) {
+    const r = radius || this.colliderRadius;
+    this.body.setCircle(r, offsetX, offsetY);
 
-		return this
-	}
+    return this;
+  }
 
-	useSquareCollider(width: number)
-	{
-		this.body.setSize(width, width)
+  useSquareCollider(width: number) {
+    this.body.setSize(width, width);
 
-		return this
-	}
+    return this;
+  }
 
-	useScaledCollider(scaleFactor: number)
-	{
-		const w = this.width * scaleFactor
-		const h = this.height * scaleFactor
+  useScaledCollider(scaleFactor: number) {
+    const w = this.width * scaleFactor;
+    const h = this.height * scaleFactor;
 
-		this.body.setSize(w, h)
-		
-		return this
-	}
+    this.body.setSize(w, h);
 
-	setProjectileModule(projectileModule: ProjectileModule)
-	{
-		this.projectileModule = projectileModule
-	}
+    return this;
+  }
 
-	fire(): IProjectile | null
-	{
-		if (!this.projectileModule)
-		{
-			return null
-		}
+  setProjectileModule(projectileModule: ProjectileModule) {
+    this.projectileModule = projectileModule;
+  }
 
-		// distance to nose of ship
-		const noseOffset = this.scene.physics.velocityFromRotation(this.rotation, this.width * 0.5)
+  fire(): IProjectile | null {
+    if (!this.projectileModule) {
+      return null;
+    }
 
-		const laser = this.projectileModule.fireFrom(
-			this.x + noseOffset.x,
-			this.y + noseOffset.y,
-			noseOffset.normalize()
-		)
+    // distance to nose of ship
+    const noseOffset = this.scene.physics.velocityFromRotation(
+      this.rotation,
+      this.width * 0.5
+    );
 
-		const len = this.body.velocity.length()
-		if (len)
-		{
-			const v = laser.physicsBody.velocity.clone().normalize()
-			v.x *= len
-			v.y *= len
-			laser.physicsBody.velocity.x += v.x
-			laser.physicsBody.velocity.y += v.y
-		}
+    const laser = this.projectileModule.fireFrom(
+      this.x + noseOffset.x,
+      this.y + noseOffset.y,
+      noseOffset.normalize()
+    );
 
-		return laser
-	}
+    const len = this.body.velocity.length();
+    if (len) {
+      const v = laser.physicsBody.velocity.clone().normalize();
+      v.x *= len;
+      v.y *= len;
+      laser.physicsBody.velocity.x += v.x;
+      laser.physicsBody.velocity.y += v.y;
+    }
 
-	update(dt: number)
-	{
-		const angle = this.angle
-		if (this.cursorKeys.left?.isDown)
-		{
-			this.setAngle(angle - this.turnSpeed)
-		}
-		else if (this.cursorKeys.right?.isDown)
-		{
-			this.setAngle(angle + this.turnSpeed)
-		}
+    return laser;
+  }
 
-		if (this.cursorKeys.up?.isDown)
-		{
-			const dir = this.scene.physics.velocityFromRotation(this.rotation, 1)
-			const vel = this.body.velocity
+  update(dt: number) {
+    const angle = this.angle;
+    if (this.cursorKeys.left?.isDown) {
+      this.setAngle(angle - this.turnSpeed);
+    } else if (this.cursorKeys.right?.isDown) {
+      this.setAngle(angle + this.turnSpeed);
+    }
 
-			vel.x += dir.x * this.acceleration
-			vel.y += dir.y * this.acceleration
+    if (this.cursorKeys.up?.isDown) {
+      const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
+      const vel = this.body.velocity;
 
-			this.setVelocity(vel.x, vel.y)
-		}
+      vel.x += dir.x * this.acceleration;
+      vel.y += dir.y * this.acceleration;
 
-		if (this.fireKey.isDown)
-		{
-			this.throttledFire()
-		}
-	}
+      this.setVelocity(vel.x, vel.y);
+    }
 
-	@throttle(150, { leading: true, trailing: false })
-	private throttledFire()
-	{
-		this.fire()
-	}
+    if (this.fireKey.isDown) {
+      this.throttledFire();
+    }
+  }
+
+  @throttle(150, { leading: true, trailing: false })
+  private throttledFire() {
+    this.fire();
+  }
 }
 
-Phaser.GameObjects.GameObjectFactory.register('playerShip', function (x: number, y: number, key: string) {
-	// @ts-ignore
-	var ship = new PlayerShip(this.scene, x, y, key)
+Phaser.GameObjects.GameObjectFactory.register(
+  "playerShip",
+  function (x: number, y: number, key: string) {
+    // @ts-ignore
+    var ship = new PlayerShip(this.scene, x, y, key);
 
-	// @ts-ignore
-	this.displayList.add(ship)
-	// @ts-ignore
-	this.updateList.add(ship)
+    // @ts-ignore
+    this.displayList.add(ship);
+    // @ts-ignore
+    this.updateList.add(ship);
 
-	// @ts-ignore
-	this.scene.physics.world.enableBody(ship, Phaser.Physics.Arcade.DYNAMIC_BODY)
+    // @ts-ignore
+    this.scene.physics.world.enableBody(
+      ship,
+      Phaser.Physics.Arcade.DYNAMIC_BODY
+    );
 
-	const body = ship.body as Phaser.Physics.Arcade.Body
-	body.useDamping = true
-	body.setDrag(DefaultDrag, DefaultDrag)
-	body.allowDrag = true
+    const body = ship.body as Phaser.Physics.Arcade.Body;
+    body.useDamping = true;
+    body.setDrag(DefaultDrag, DefaultDrag);
+    body.allowDrag = true;
 
-	return ship
-})
+    return ship;
+  }
+);

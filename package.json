@@ -4,7 +4,7 @@
 	"description": "A template project for Phaser3 using Parceljs",
 	"scripts": {
 		"start": "parcel src/index.html -p 8000",
-		"build": "parcel build src/index.html --out-dir dist",
+		"build": "parcel build src/index.html",
 		"build-gh": "parcel build src/index.html --out-dir dist --public-url /asteroids-template-phaser/",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -16,8 +16,9 @@
 	},
 	"homepage": "https://github.com/ourcade/phaser3-parcel-template",
 	"devDependencies": {
+		"parcel": "^2.11.0",
 		"parcel-plugin-clean-easy": "^1.0.2",
-		"parcel-plugin-static-files-copy": "^2.2.1",
+		"parcel-plugin-static-files-copy": "^2.6.0",
 		"tslib": "^1.11.1",
 		"typescript": "^3.8.3"
 	},
@@ -34,8 +35,5 @@
 	"staticFiles": {
 		"staticPath": "public",
 		"watcherGlob": "**"
-	},
-	"alias": {
-		"@": "./src"
 	}
 }
