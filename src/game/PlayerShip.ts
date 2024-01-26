@@ -51,14 +51,22 @@ export default class PlayerShip
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture);
-
     this.cursorKeys = scene.input.keyboard.createCursorKeys();
     this.fireKey = scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
 
-    scene.game.events.on(GameEvents.FireButton, () => {
-      this.throttledFire();
+    scene.game.events.on(GameEvents.JoyStick, (angle) => {
+      console.log(this.scene.physics);
+
+      this.setAngle(angle - this.turnSpeed);
+      const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
+      const vel = this.body.velocity;
+
+      vel.x += dir.x * this.acceleration;
+      vel.y += dir.y * this.acceleration;
+
+      this.setVelocity(vel.x, vel.y);
     });
   }
 
@@ -138,6 +146,7 @@ export default class PlayerShip
     }
 
     if (this.cursorKeys.up?.isDown) {
+      console.log(this.scene.physics);
       const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
       const vel = this.body.velocity;
 
@@ -150,6 +159,10 @@ export default class PlayerShip
     if (this.fireKey.isDown) {
       this.throttledFire();
     }
+
+    this.scene.game.events.on(GameEvents.FireButton, () => {
+      this.throttledFire();
+    });
   }
 
   @throttle(150, { leading: true, trailing: false })
