@@ -1,8 +1,8 @@
-export enum SceneKeys
-{
-	TitleScreen = 'titlescreen',
-	GameBackground = 'game-background',
-	Game = 'game',
-	GameUI = 'game-ui',
-	GameOver = 'game-over'
+export enum SceneKeys {
+  TitleScreen = "titlescreen",
+  GameBackground = "game-background",
+  Game = "game",
+  GameUI = "game-ui",
+  GameOver = "game-over",
+  GameControls = "game-controls",
 }

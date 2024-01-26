@@ -3,6 +3,7 @@ import ProjectileModule from "./ProjectileModule";
 
 import throttle from "../decorators/throttle";
 import IProjectile from "../types/IProjectile";
+import { GameEvents } from "../consts/GameEvents";
 
 declare global {
   interface IPlayerShip extends Phaser.Physics.Arcade.Sprite {
@@ -55,6 +56,10 @@ export default class PlayerShip
     this.fireKey = scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
+
+    scene.game.events.on(GameEvents.FireButton, () => {
+      this.throttledFire();
+    });
   }
 
   configure(config: IPlayerShipConfig) {

@@ -1,4 +1,6 @@
-function button(text = "Back to Home") {
+function button(text = "FIRE!") {
+
+
   return (
     <button class="button is-info is-large" style="width: 300px">
       <span style="font-family: 'Fredoka One'; font-size: 1em">{text}</span>

@@ -5,8 +5,13 @@ import PlayAgainButton from "../UI/PlayAgainButton";
 import BackToTitleButton from "../UI/BackToTitleButton";
 
 export default class GameOver extends Phaser.Scene {
+  points: number = 0;
+
   preload() {}
 
+  init(points) {
+    this.points = points;
+  }
   create() {
     this.cameras.main.setBackgroundColor("rgba(255,0,0,1)");
 
@@ -23,6 +28,15 @@ export default class GameOver extends Phaser.Scene {
     title.setOrigin(0.5, 0.5);
     title.alpha = 0;
     title.scale = 0;
+
+    const score = this.add.text(x, height * 0.3, `Score: ${this.points}`, {
+      fontFamily: "Righteous",
+      fontSize: `${fontSize}px`,
+      align: "center",
+    });
+    score.setOrigin(0.5, 0.5);
+    score.alpha = 0;
+    score.scale = 0;
 
     const y = this.scale.height * 0.7;
 
@@ -52,6 +66,13 @@ export default class GameOver extends Phaser.Scene {
       duration: 300,
     });
 
+    timeline.add({
+      targets: score,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeOut",
+      duration: 300,
+    });
     timeline.add({
       targets: playAgainButton,
       alpha: 1,

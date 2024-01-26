@@ -46,7 +46,9 @@ export default class Game extends Phaser.Scene {
       this.scale.width * 0.5,
       this.scale.height * 0.5
     );
-
+    if (!this.sys.game.device.os.desktop) {
+      this.scene.run(SceneKeys.GameControls);
+    }
     this.scene.run(SceneKeys.GameBackground);
     this.scene.sendToBack(SceneKeys.GameBackground);
 
