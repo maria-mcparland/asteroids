@@ -159,7 +159,9 @@ export default class PlayerShip
     }
 
     this.scene.game.events.on(GameEvents.FireButton, () => {
-      this.throttledFire();
+      if (this.scene) {
+        this.throttledFire();
+      }
     });
   }
 
