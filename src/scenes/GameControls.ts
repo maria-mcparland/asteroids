@@ -7,10 +7,10 @@ export default class GameControls extends Phaser.Scene {
   preload() {}
 
   create() {
-    const x = this.scale.width * 0.57;
+    const x = this.scale.width * 0.7;
     const y = this.scale.height * 0.9;
 
-    const xJoyStick = this.scale.width * 0.43;
+    const xJoyStick = this.scale.width * 0.23;
     const yJoyStick = this.scale.height * 0.9;
 
     var joyStick = new VirtualJoystick(this, { x: xJoyStick, y: yJoyStick });

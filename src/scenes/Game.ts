@@ -99,6 +99,9 @@ export default class Game extends Phaser.Scene {
       .setOrigin(0.5, 0.5)
       .setDepth(1000);
 
+    console.log(this.playerShip.height);
+    console.log(this.playerShip.width);
+
     const projectilePool = this.add.projectilePool();
     this.playerShip.setProjectileModule(
       new ProjectileModule(projectilePool, TextureKeys.PlayerLaser)

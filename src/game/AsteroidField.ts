@@ -123,6 +123,14 @@ export default class AsteroidField {
     for (let i = 0; i < count; ++i) {
       let x = Phaser.Math.Between(0, width);
       let y = Phaser.Math.Between(0, height);
+      if (x > width / 2 - 100 && x < width / 2 + 100) {
+        console.log("here");
+        x += 110;
+      }
+      if (y > height / 2 - 100 && y < height / 2 + 100) {
+        console.log("y");
+        y += 110;
+      }
       const texIdx = Phaser.Math.Between(0, BigAsteroidTextureKeys.length - 1);
 
       const asteroid = this.poolMap.spawn(x, y, BigAsteroidTextureKeys[texIdx]);
