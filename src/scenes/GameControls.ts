@@ -17,7 +17,9 @@ export default class GameControls extends Phaser.Scene {
 
     //@ts-ignore
     joyStick.on("update", () => {
-      this.game.events.emit(GameEvents.JoyStick, joyStick.angle);
+      if (joyStick.angle != 0) {
+        this.game.events.emit(GameEvents.JoyStick, joyStick.angle);
+      }
     });
     const fireButton = this.add
       .dom(x, y - 30, FireButton())

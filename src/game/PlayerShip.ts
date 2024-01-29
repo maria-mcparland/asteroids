@@ -61,8 +61,8 @@ export default class PlayerShip
         const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
         const vel = this.body.velocity;
 
-        vel.x += dir.x * this.acceleration;
-        vel.y += dir.y * this.acceleration;
+        vel.x += dir.x * this.acceleration - 2;
+        vel.y += dir.y * this.acceleration - 2;
 
         this.setVelocity(vel.x, vel.y);
       }
