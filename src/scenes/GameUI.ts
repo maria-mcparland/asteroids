@@ -7,7 +7,6 @@ export default class GameUI extends Phaser.Scene {
   private scoreLabel?: Phaser.GameObjects.Text;
   private pointsService;
   init(data) {
-    console.log("init", data);
     this.pointsService = data.pointsService;
   }
 

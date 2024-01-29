@@ -55,16 +55,17 @@ export default class PlayerShip
     this.fireKey = scene.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
+    this.scene.game.events.on(GameEvents.JoyStick, (angle) => {
+      if (this.scene) {
+        this.setAngle(angle - this.turnSpeed);
+        const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
+        const vel = this.body.velocity;
 
-    scene.game.events.on(GameEvents.JoyStick, (angle) => {
-      this.setAngle(angle - this.turnSpeed);
-      const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
-      const vel = this.body.velocity;
+        vel.x += dir.x * this.acceleration;
+        vel.y += dir.y * this.acceleration;
 
-      vel.x += dir.x * this.acceleration;
-      vel.y += dir.y * this.acceleration;
-
-      this.setVelocity(vel.x, vel.y);
+        this.setVelocity(vel.x, vel.y);
+      }
     });
   }
 

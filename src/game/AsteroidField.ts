@@ -121,8 +121,8 @@ export default class AsteroidField {
 
     const ret: IAsteroid[] = [];
     for (let i = 0; i < count; ++i) {
-      const x = Phaser.Math.Between(0, width);
-      const y = Phaser.Math.Between(0, height);
+      let x = Phaser.Math.Between(0, width);
+      let y = Phaser.Math.Between(0, height);
       const texIdx = Phaser.Math.Between(0, BigAsteroidTextureKeys.length - 1);
 
       const asteroid = this.poolMap.spawn(x, y, BigAsteroidTextureKeys[texIdx]);
