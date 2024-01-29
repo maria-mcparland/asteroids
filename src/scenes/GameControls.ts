@@ -15,6 +15,7 @@ export default class GameControls extends Phaser.Scene {
 
     var joyStick = new VirtualJoystick(this, { x: xJoyStick, y: yJoyStick });
 
+    //@ts-ignore
     joyStick.on("update", () => {
       this.game.events.emit(GameEvents.JoyStick, joyStick.angle);
     });

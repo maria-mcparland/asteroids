@@ -1,13 +1,15 @@
 import Phaser from "phaser";
 
 import { GameEvents } from "../consts/GameEvents";
-import PointsService from "../game/services/PointsService";
 import IAsteroid from "../types/IAsteroid";
 
 export default class GameUI extends Phaser.Scene {
-  private pointsService = new PointsService();
-
   private scoreLabel?: Phaser.GameObjects.Text;
+  private pointsService;
+  init(data) {
+    console.log("init", data);
+    this.pointsService = data.pointsService;
+  }
 
   preload() {
     this.pointsService.reset();

@@ -9,8 +9,8 @@ export default class GameOver extends Phaser.Scene {
 
   preload() {}
 
-  init(points) {
-    this.points = points;
+  init(data) {
+    this.points = data.score;
   }
   create() {
     this.cameras.main.setBackgroundColor("rgba(255,0,0,1)");
@@ -19,7 +19,7 @@ export default class GameOver extends Phaser.Scene {
     const height = this.scale.height;
     const x = this.scale.width * 0.5;
 
-    const fontSize = Math.min(width * 0.18, 150);
+    let fontSize = Math.min(width * 0.18, 150);
     const title = this.add.text(x, height * 0.3, "Game Over", {
       fontFamily: "Righteous",
       fontSize: `${fontSize}px`,
@@ -29,7 +29,8 @@ export default class GameOver extends Phaser.Scene {
     title.alpha = 0;
     title.scale = 0;
 
-    const score = this.add.text(x, height * 0.3, `Score: ${this.points}`, {
+    fontSize = Math.min(width * 0.18, 100);
+    const score = this.add.text(x, height * 0.5, `Score: ${this.points}`, {
       fontFamily: "Righteous",
       fontSize: `${fontSize}px`,
       align: "center",
@@ -38,7 +39,7 @@ export default class GameOver extends Phaser.Scene {
     score.alpha = 0;
     score.scale = 0;
 
-    const y = this.scale.height * 0.7;
+    const y = this.scale.height * 0.8;
 
     const playAgainButton = this.add
       .dom(x, y - 30, PlayAgainButton())
@@ -49,7 +50,7 @@ export default class GameOver extends Phaser.Scene {
     playAgainButton.alpha = 0;
 
     const backToTitleButton = this.add
-      .dom(x, y + 30, BackToTitleButton())
+      .dom(x, y + 40, BackToTitleButton())
       .addListener("click")
       .on("click", () => {
         this.scene.start(SceneKeys.TitleScreen);

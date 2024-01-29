@@ -57,8 +57,6 @@ export default class PlayerShip
     );
 
     scene.game.events.on(GameEvents.JoyStick, (angle) => {
-      console.log(this.scene.physics);
-
       this.setAngle(angle - this.turnSpeed);
       const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
       const vel = this.body.velocity;
@@ -146,7 +144,6 @@ export default class PlayerShip
     }
 
     if (this.cursorKeys.up?.isDown) {
-      console.log(this.scene.physics);
       const dir = this.scene.physics.velocityFromRotation(this.rotation, 1);
       const vel = this.body.velocity;
 

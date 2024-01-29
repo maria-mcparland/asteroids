@@ -17,10 +17,12 @@ import { AsteroidSize } from "../game/AsteroidSize";
 import "../game/AsteroidPool";
 import "../game/PlayerShip";
 import "../game/ProjectilePool";
+import PointsService from "../game/services/PointsService";
 
 export default class Game extends Phaser.Scene {
   private playerShip?: IPlayerShip;
   private asteroidField?: AsteroidField;
+  private pointsService = new PointsService();
 
   preload() {
     this.load.setPath("/assets/game/");
@@ -52,7 +54,7 @@ export default class Game extends Phaser.Scene {
     this.scene.run(SceneKeys.GameBackground);
     this.scene.sendToBack(SceneKeys.GameBackground);
 
-    this.scene.run(SceneKeys.GameUI);
+    this.scene.run(SceneKeys.GameUI, { pointsService: this.pointsService });
 
     const asteroidPoolMap = new AsteroidPoolMap();
     asteroidPoolMap.set(
@@ -158,7 +160,7 @@ export default class Game extends Phaser.Scene {
       this.scene.stop(SceneKeys.GameBackground);
       this.scene.stop(SceneKeys.GameUI);
       this.scene.stop(SceneKeys.GameControls);
-      this.scene.start(SceneKeys.GameOver);
+      this.scene.start(SceneKeys.GameOver, { score: this.pointsService.total });
     });
   }
 
