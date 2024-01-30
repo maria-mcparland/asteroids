@@ -19,12 +19,14 @@
 		  "@/*": ["./*"]
 		},
 		"typeRoots": [
-			"node_modules/@types",
-			"node_module/phaser/types"
+			"./node_modules/@types",
+			"./node_module/phaser/types"
 		],
 		"types": [
 			"Phaser"
-		]
+		],
+		"lib": ["es6", "dom", "dom.iterable", "scripthost"],
+
 	},
 	"include": [
 		"src/**/*"
