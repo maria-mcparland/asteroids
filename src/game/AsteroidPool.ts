@@ -10,7 +10,12 @@ declare global {
     readonly asteroidSize: AsteroidSize;
     setAsteroidSize(size: AsteroidSize): IAsteroidPool;
 
-    spawn(x: number, y: number, texture: string): IAsteroid;
+    spawn(
+      x: number,
+      y: number,
+      texture: string,
+      asteroidSpeed?: number
+    ): IAsteroid;
     despawn(laser: IAsteroid): void;
   }
 }
@@ -50,7 +55,7 @@ export default class AsteroidPool
     return this;
   }
 
-  spawn(x: number, y: number, texture: string) {
+  spawn(x: number, y: number, texture: string, asteroidSpeed?: number) {
     const spawnExisting = this.countActive(false) > 0;
 
     const asteroid: IAsteroid = this.get(x, y, texture);
@@ -76,7 +81,11 @@ export default class AsteroidPool
     let angle = Phaser.Math.Between(0, 359);
     const vec = this.scene.physics.velocityFromAngle(angle, radius * 0.5);
 
-    asteroid.setVelocity(vec.x * 0.6, vec.y * 0.6);
+    if (asteroidSpeed) {
+      asteroid.setVelocity(vec.x * asteroidSpeed, vec.y * asteroidSpeed);
+    } else {
+      asteroid.setVelocity(vec.x * 0.6, vec.y * 0.6);
+    }
 
     return asteroid;
   }

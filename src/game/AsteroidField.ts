@@ -144,6 +144,46 @@ export default class AsteroidField {
     return ret;
   }
 
+  createNewAsteroid(count = 1) {
+    const ret: IAsteroid[] = [];
+    for (let i = 0; i < count; ++i) {
+      const texIdx = Phaser.Math.Between(0, BigAsteroidTextureKeys.length - 1);
+      const position = this.getRandomPositionFromScreenSide(
+        Phaser.Math.Between(0, 4)
+      );
+      const velocity = Phaser.Math.Between(5, 20) / 10;
+      const asteroid = this.poolMap.spawn(
+        position.x,
+        position.y,
+        BigAsteroidTextureKeys[texIdx],
+        velocity
+      );
+
+      if (!asteroid) {
+        continue;
+      }
+
+      ret.push(asteroid.useCircleCollider(undefined, 0.8));
+    }
+
+    return ret;
+  }
+
+  private getRandomPositionFromScreenSide(index) {
+    const width = this.scene.scale.width;
+    const height = this.scene.scale.height;
+    switch (index) {
+      case 1:
+        return { x: -50, y: Phaser.Math.Between(0, height) };
+      case 2:
+        return { x: width + 50, y: Phaser.Math.Between(0, height) };
+      case 3:
+        return { x: Phaser.Math.Between(0, width), y: -50 };
+      default:
+        return { x: Phaser.Math.Between(0, width), y: height + 50 };
+    }
+  }
+
   private getNextSmallerSize(size: AsteroidSize) {
     switch (size) {
       case AsteroidSize.Large:

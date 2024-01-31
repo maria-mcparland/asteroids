@@ -23,6 +23,7 @@ export default class Game extends Phaser.Scene {
   private playerShip?: IPlayerShip;
   private asteroidField?: AsteroidField;
   private pointsService = new PointsService();
+  private triggerTimer: Phaser.Time.TimerEvent;
 
   preload() {
     this.load.setPath("/assets/game/");
@@ -120,6 +121,17 @@ export default class Game extends Phaser.Scene {
         this
       );
     });
+
+    this.triggerTimer = this.time.addEvent({
+      callback: this.onEvent,
+      callbackScope: this,
+      delay: 6000, // 1000 = 1 second
+      loop: true,
+    });
+  }
+
+  onEvent() {
+    this.asteroidField?.createNewAsteroid(5);
   }
 
   update(t: number, dt: number) {
