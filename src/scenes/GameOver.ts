@@ -3,7 +3,7 @@ import Phaser from "phaser";
 import { SceneKeys } from "../consts/SceneKeys";
 import PlayAgainButton from "../UI/PlayAgainButton";
 import BackToTitleButton from "../UI/BackToTitleButton";
-
+import ShopButton from "../UI/ShopButton";
 export default class GameOver extends Phaser.Scene {
   points: number = 0;
 
@@ -42,7 +42,7 @@ export default class GameOver extends Phaser.Scene {
     const y = this.scale.height * 0.8;
 
     const playAgainButton = this.add
-      .dom(x, y - 30, PlayAgainButton())
+      .dom(x, y - 80, PlayAgainButton())
       .addListener("click")
       .on("click", () => {
         this.scene.start(SceneKeys.Game);
@@ -50,12 +50,17 @@ export default class GameOver extends Phaser.Scene {
     playAgainButton.alpha = 0;
 
     const backToTitleButton = this.add
-      .dom(x, y + 40, BackToTitleButton())
+      .dom(x, y + 80, BackToTitleButton())
       .addListener("click")
       .on("click", () => {
         this.scene.start(SceneKeys.TitleScreen);
       });
     backToTitleButton.alpha = 0;
+
+    const shopButton = this.add.dom(x, y, ShopButton);
+    shopButton.addListener("click").on("click", () => {
+      window.open("https://shop.unicorn-payments.com", "_blank");
+    });
 
     const timeline = this.tweens.createTimeline();
 
@@ -80,6 +85,12 @@ export default class GameOver extends Phaser.Scene {
       ease: "Sine.easeOut",
       duration: 700,
       offset: 100,
+    });
+    timeline.add({
+      targets: shopButton,
+      ease: "Quad.easeOut",
+      duration: 400,
+      offset: 350,
     });
 
     timeline.add({

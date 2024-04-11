@@ -7,8 +7,11 @@ import { SceneKeys } from "../consts/SceneKeys";
 import WebFontFile from "../UI/WebFontFile";
 
 export default class TitleScreen extends Phaser.Scene {
+  points: number = 0;
+
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
+    this.points = 100;
 
     const file = new WebFontFile(this.load, ["Righteous", "Fredoka One"]);
     this.load.addFile(file);
@@ -40,6 +43,19 @@ export default class TitleScreen extends Phaser.Scene {
       window.open("https://shop.unicorn-payments.com", "_blank");
     });
 
+    const score = this.add.text(
+      x,
+      height * 0.5,
+      `Current Points: ${this.points}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${Math.min(width * 0.02, 20)}px`,
+        align: "center",
+      }
+    );
+    score.setOrigin(0.5, 0.5);
+    score.alpha = 0;
+    score.scale = 0;
     const timeline = this.tweens.createTimeline();
 
     // https://github.com/photonstorm/phaser/blob/v3.22.0/src/math/easing/EaseMap.js
@@ -49,6 +65,14 @@ export default class TitleScreen extends Phaser.Scene {
       y: height * 0.3,
       ease: "Sine.easeInOut",
       duration: 700,
+    });
+
+    timeline.add({
+      targets: score,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeOut",
+      duration: 300,
     });
 
     timeline.add({
