@@ -144,7 +144,7 @@ export default class AsteroidField {
     return ret;
   }
 
-  createNewAsteroid(count = 1) {
+  public createNewAsteroid(count = 1) {
     const ret: IAsteroid[] = [];
     for (let i = 0; i < count; ++i) {
       const texIdx = Phaser.Math.Between(0, BigAsteroidTextureKeys.length - 1);

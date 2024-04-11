@@ -50,10 +50,10 @@ export default class TitleScreen extends Phaser.Scene {
     const score = this.add.text(
       x,
       height * 0.5,
-      `Points Total: ${this.points}`,
+      `Total Points: ${this.points}`,
       {
         fontFamily: "Righteous",
-        fontSize: `${Math.min(width * 0.02, 20)}px`,
+        fontSize: `${Math.min(width * 0.02, 50)}px`,
         align: "center",
       }
     );

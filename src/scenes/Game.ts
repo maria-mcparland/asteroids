@@ -131,6 +131,7 @@ export default class Game extends Phaser.Scene {
   }
 
   onEvent() {
+    console.log(this.asteroidField);
     this.asteroidField?.createNewAsteroid(5);
   }
 

@@ -6,11 +6,18 @@ import BackToTitleButton from "../UI/BackToTitleButton";
 import ShopButton from "../UI/ShopButton";
 export default class GameOver extends Phaser.Scene {
   points: number = 0;
+  currentPoints: number = 0;
 
   preload() {}
 
   init(data) {
     this.points = data.score;
+    const currentPoints = localStorage.getItem("points");
+    if (!currentPoints) {
+      localStorage.setItem("points", "0");
+    } else {
+      this.currentPoints = parseInt(currentPoints);
+    }
   }
   create() {
     this.cameras.main.setBackgroundColor("rgba(255,0,0,1)");
@@ -20,7 +27,7 @@ export default class GameOver extends Phaser.Scene {
     const x = this.scale.width * 0.5;
 
     let fontSize = Math.min(width * 0.18, 150);
-    const title = this.add.text(x, height * 0.3, "Game Over", {
+    const title = this.add.text(x, height * 0.2, "Game Over", {
       fontFamily: "Righteous",
       fontSize: `${fontSize}px`,
       align: "center",
@@ -29,15 +36,34 @@ export default class GameOver extends Phaser.Scene {
     title.alpha = 0;
     title.scale = 0;
 
-    fontSize = Math.min(width * 0.18, 100);
-    const score = this.add.text(x, height * 0.5, `Score: ${this.points}`, {
-      fontFamily: "Righteous",
-      fontSize: `${fontSize}px`,
-      align: "center",
-    });
+    fontSize = Math.min(width * 0.18, 50);
+    const score = this.add.text(
+      x,
+      height * 0.4,
+      `Current Score: ${this.points}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${fontSize}px`,
+        align: "center",
+      }
+    );
     score.setOrigin(0.5, 0.5);
     score.alpha = 0;
     score.scale = 0;
+
+    const totalPoints = this.add.text(
+      x,
+      height * 0.5,
+      `Total Points: ${this.currentPoints}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${fontSize - 20}px`,
+        align: "center",
+      }
+    );
+    totalPoints.setOrigin(0.5, 0.5);
+    totalPoints.alpha = 0;
+    totalPoints.scale = 0;
 
     const y = this.scale.height * 0.8;
 
@@ -74,6 +100,14 @@ export default class GameOver extends Phaser.Scene {
 
     timeline.add({
       targets: score,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeOut",
+      duration: 300,
+    });
+
+    timeline.add({
+      targets: totalPoints,
       alpha: 1,
       scale: 1,
       ease: "Sine.easeOut",
