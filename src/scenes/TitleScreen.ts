@@ -11,8 +11,12 @@ export default class TitleScreen extends Phaser.Scene {
 
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
-    this.points = 100;
-
+    const pointsStored = localStorage.getItem("points");
+    if (!pointsStored) {
+      localStorage.setItem("points", "0");
+    } else {
+      this.points = parseInt(pointsStored);
+    }
     const file = new WebFontFile(this.load, ["Righteous", "Fredoka One"]);
     this.load.addFile(file);
   }
@@ -46,7 +50,7 @@ export default class TitleScreen extends Phaser.Scene {
     const score = this.add.text(
       x,
       height * 0.5,
-      `Current Points: ${this.points}`,
+      `Points Total: ${this.points}`,
       {
         fontFamily: "Righteous",
         fontSize: `${Math.min(width * 0.02, 20)}px`,

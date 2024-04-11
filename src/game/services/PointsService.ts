@@ -13,7 +13,15 @@ export default class PointsService implements IPointsService {
   addForAsteroid(asteroid: IAsteroid) {
     const points = this.forAsteroid(asteroid);
     this.totalPoints += points;
-
+    const pointsStored = localStorage.getItem("points");
+    if (!pointsStored) {
+      localStorage.setItem("points", "0");
+    } else {
+      localStorage.setItem(
+        "points",
+        (parseInt(pointsStored) + points).toString()
+      );
+    }
     return points;
   }
 
