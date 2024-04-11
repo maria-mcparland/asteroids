@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 import PlayButton from "../UI/PlayButton";
+import ShopButton from "../UI/ShopButton";
 import { SceneKeys } from "../consts/SceneKeys";
 
 import WebFontFile from "../UI/WebFontFile";
@@ -34,6 +35,11 @@ export default class TitleScreen extends Phaser.Scene {
       this.scene.start(SceneKeys.Game);
     });
 
+    const shopButton = this.add.dom(x, height + 100, ShopButton);
+    shopButton.addListener("click").on("click", () => {
+      window.open("https://shop.unicorn-payments.com", "_blank");
+    });
+
     const timeline = this.tweens.createTimeline();
 
     // https://github.com/photonstorm/phaser/blob/v3.22.0/src/math/easing/EaseMap.js
@@ -48,6 +54,13 @@ export default class TitleScreen extends Phaser.Scene {
     timeline.add({
       targets: playButton,
       y,
+      ease: "Quad.easeOut",
+      duration: 400,
+      offset: 350,
+    });
+    timeline.add({
+      targets: shopButton,
+      y: y + 100,
       ease: "Quad.easeOut",
       duration: 400,
       offset: 350,
