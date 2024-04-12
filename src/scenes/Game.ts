@@ -174,7 +174,10 @@ export default class Game extends Phaser.Scene {
       this.scene.stop(SceneKeys.GameUI);
       this.scene.stop(SceneKeys.GameControls);
       this.scene.stop();
-      this.scene.start(SceneKeys.GameOver, { score: this.pointsService.total });
+      this.scene.start(SceneKeys.GameOver, {
+        score: this.pointsService.total,
+        currentPoints: this.pointsService.overall,
+      });
     });
   }
 

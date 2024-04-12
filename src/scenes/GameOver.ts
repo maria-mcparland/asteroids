@@ -12,12 +12,7 @@ export default class GameOver extends Phaser.Scene {
 
   init(data) {
     this.points = data.score;
-    const currentPoints = localStorage.getItem("points");
-    if (!currentPoints) {
-      localStorage.setItem("points", "0");
-    } else {
-      this.currentPoints = parseInt(currentPoints);
-    }
+    this.currentPoints = data.currentPoints;
   }
   create() {
     this.cameras.main.setBackgroundColor("rgba(255,0,0,1)");

@@ -23,7 +23,7 @@
 			"./node_module/phaser/types"
 		],
 		"types": [
-			"Phaser"
+			"Phaser", "Node"
 		],
 		"lib": ["es6", "dom", "dom.iterable", "scripthost"],
 

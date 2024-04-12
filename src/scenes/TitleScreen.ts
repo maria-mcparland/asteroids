@@ -5,18 +5,16 @@ import ShopButton from "../UI/ShopButton";
 import { SceneKeys } from "../consts/SceneKeys";
 
 import WebFontFile from "../UI/WebFontFile";
+import PointsService from "../game/services/PointsService";
 
 export default class TitleScreen extends Phaser.Scene {
+  private pointsService = new PointsService();
+
   points: number = 0;
 
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
-    const pointsStored = localStorage.getItem("points");
-    if (!pointsStored) {
-      localStorage.setItem("points", "0");
-    } else {
-      this.points = parseInt(pointsStored);
-    }
+    this.points = this.pointsService.gatherPointsFromLocalStorage();
     const file = new WebFontFile(this.load, ["Righteous", "Fredoka One"]);
     this.load.addFile(file);
   }
