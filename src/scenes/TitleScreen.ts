@@ -42,7 +42,11 @@ export default class TitleScreen extends Phaser.Scene {
 
     const shopButton = this.add.dom(x, height + 100, ShopButton);
     shopButton.addListener("click").on("click", () => {
-      window.open("https://shop.unicorn-payments.com", "_blank");
+      const points = localStorage.getItem("points");
+      window.open(
+        `https://shop.unicorn-payments.com?points=${points}`,
+        "_blank"
+      );
     });
 
     const score = this.add.text(
