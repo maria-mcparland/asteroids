@@ -3,14 +3,16 @@ import Phaser from "phaser";
 import { SceneKeys } from "../consts/SceneKeys";
 import PlayAgainButton from "../UI/PlayAgainButton";
 import BackToTitleButton from "../UI/BackToTitleButton";
-
+import ShopButton from "../UI/ShopButton";
 export default class GameOver extends Phaser.Scene {
   points: number = 0;
+  currentPoints: number = 0;
 
   preload() {}
 
   init(data) {
     this.points = data.score;
+    this.currentPoints = data.currentPoints;
   }
   create() {
     this.cameras.main.setBackgroundColor("rgba(255,0,0,1)");
@@ -20,7 +22,7 @@ export default class GameOver extends Phaser.Scene {
     const x = this.scale.width * 0.5;
 
     let fontSize = Math.min(width * 0.18, 150);
-    const title = this.add.text(x, height * 0.3, "Game Over", {
+    const title = this.add.text(x, height * 0.2, "Game Over", {
       fontFamily: "Righteous",
       fontSize: `${fontSize}px`,
       align: "center",
@@ -29,20 +31,39 @@ export default class GameOver extends Phaser.Scene {
     title.alpha = 0;
     title.scale = 0;
 
-    fontSize = Math.min(width * 0.18, 100);
-    const score = this.add.text(x, height * 0.5, `Score: ${this.points}`, {
-      fontFamily: "Righteous",
-      fontSize: `${fontSize}px`,
-      align: "center",
-    });
+    fontSize = Math.min(width * 0.18, 50);
+    const score = this.add.text(
+      x,
+      height * 0.4,
+      `Current Score: ${this.points}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${fontSize}px`,
+        align: "center",
+      }
+    );
     score.setOrigin(0.5, 0.5);
     score.alpha = 0;
     score.scale = 0;
 
+    const totalPoints = this.add.text(
+      x,
+      height * 0.5,
+      `Total Points: ${this.currentPoints}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${fontSize - 20}px`,
+        align: "center",
+      }
+    );
+    totalPoints.setOrigin(0.5, 0.5);
+    totalPoints.alpha = 0;
+    totalPoints.scale = 0;
+
     const y = this.scale.height * 0.8;
 
     const playAgainButton = this.add
-      .dom(x, y - 30, PlayAgainButton())
+      .dom(x, y - 80, PlayAgainButton())
       .addListener("click")
       .on("click", () => {
         this.scene.start(SceneKeys.Game);
@@ -50,12 +71,17 @@ export default class GameOver extends Phaser.Scene {
     playAgainButton.alpha = 0;
 
     const backToTitleButton = this.add
-      .dom(x, y + 40, BackToTitleButton())
+      .dom(x, y + 80, BackToTitleButton())
       .addListener("click")
       .on("click", () => {
         this.scene.start(SceneKeys.TitleScreen);
       });
     backToTitleButton.alpha = 0;
+
+    const shopButton = this.add.dom(x, y, ShopButton);
+    shopButton.addListener("click").on("click", () => {
+      window.open("https://shop.unicorn-payments.com", "_blank");
+    });
 
     const timeline = this.tweens.createTimeline();
 
@@ -74,12 +100,26 @@ export default class GameOver extends Phaser.Scene {
       ease: "Sine.easeOut",
       duration: 300,
     });
+
+    timeline.add({
+      targets: totalPoints,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeOut",
+      duration: 300,
+    });
     timeline.add({
       targets: playAgainButton,
       alpha: 1,
       ease: "Sine.easeOut",
       duration: 700,
       offset: 100,
+    });
+    timeline.add({
+      targets: shopButton,
+      ease: "Quad.easeOut",
+      duration: 400,
+      offset: 350,
     });
 
     timeline.add({

@@ -1,14 +1,20 @@
 import Phaser from "phaser";
 
 import PlayButton from "../UI/PlayButton";
+import ShopButton from "../UI/ShopButton";
 import { SceneKeys } from "../consts/SceneKeys";
 
 import WebFontFile from "../UI/WebFontFile";
+import PointsService from "../game/services/PointsService";
 
 export default class TitleScreen extends Phaser.Scene {
+  private pointsService = new PointsService();
+
+  points: number = 0;
+
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
-
+    this.points = this.pointsService.gatherPointsFromLocalStorage();
     const file = new WebFontFile(this.load, ["Righteous", "Fredoka One"]);
     this.load.addFile(file);
   }
@@ -34,6 +40,28 @@ export default class TitleScreen extends Phaser.Scene {
       this.scene.start(SceneKeys.Game);
     });
 
+    const shopButton = this.add.dom(x, height + 100, ShopButton);
+    shopButton.addListener("click").on("click", () => {
+      const points = localStorage.getItem("points");
+      window.open(
+        `https://shop.unicorn-payments.com?points=${points}`,
+        "_blank"
+      );
+    });
+
+    const score = this.add.text(
+      x,
+      height * 0.5,
+      `Total Points: ${this.points}`,
+      {
+        fontFamily: "Righteous",
+        fontSize: `${Math.min(width * 0.02, 50)}px`,
+        align: "center",
+      }
+    );
+    score.setOrigin(0.5, 0.5);
+    score.alpha = 0;
+    score.scale = 0;
     const timeline = this.tweens.createTimeline();
 
     // https://github.com/photonstorm/phaser/blob/v3.22.0/src/math/easing/EaseMap.js
@@ -46,8 +74,23 @@ export default class TitleScreen extends Phaser.Scene {
     });
 
     timeline.add({
+      targets: score,
+      alpha: 1,
+      scale: 1,
+      ease: "Sine.easeOut",
+      duration: 300,
+    });
+
+    timeline.add({
       targets: playButton,
       y,
+      ease: "Quad.easeOut",
+      duration: 400,
+      offset: 350,
+    });
+    timeline.add({
+      targets: shopButton,
+      y: y + 100,
       ease: "Quad.easeOut",
       duration: 400,
       offset: 350,
