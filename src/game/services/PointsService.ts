@@ -5,9 +5,10 @@ import { AsteroidSize } from "../AsteroidSize";
 import EncrpytionService from "./EncryptionService";
 
 export default class PointsService implements IPointsService {
-  private totalPoints = 0;
-  private overallPoints = 0;
   private encrpytionService = new EncrpytionService();
+
+  private totalPoints = 0;
+  private overallPoints = this.gatherPointsFromLocalStorage();
 
   get total() {
     return this.totalPoints;
@@ -55,7 +56,6 @@ export default class PointsService implements IPointsService {
 
   gatherPointsFromLocalStorage() {
     const pointsStored = localStorage.getItem("points");
-
     if (!pointsStored) {
       const encryptedPoints = this.encrpytionService.encryptData("0");
       localStorage.setItem("points", encryptedPoints);
