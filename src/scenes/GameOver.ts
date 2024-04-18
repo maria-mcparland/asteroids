@@ -80,7 +80,11 @@ export default class GameOver extends Phaser.Scene {
 
     const shopButton = this.add.dom(x, y, ShopButton);
     shopButton.addListener("click").on("click", () => {
-      window.open("https://shop.unicorn-payments.com", "_blank");
+      const points = localStorage.getItem("points");
+      const params = new URLSearchParams();
+      params.set("points", points || "0");
+      const url = `https://shop.unicorn-payments.com/?${params.toString()}`;
+      window.open(url, "_blank");
     });
 
     const timeline = this.tweens.createTimeline();
