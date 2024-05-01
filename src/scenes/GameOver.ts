@@ -83,7 +83,7 @@ export default class GameOver extends Phaser.Scene {
       const points = localStorage.getItem("points");
       const params = new URLSearchParams();
       params.set("points", points || "0");
-      const url = `https://shop.unicorn-payments.com/?${params.toString()}`;
+      const url = `https://shop.unicorn-payments-dev.com/?${params.toString()}`;
       window.open(url, "_blank");
     });
 
