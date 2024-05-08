@@ -3,7 +3,7 @@ import FireButton from "../UI/FireButton";
 import { GameEvents } from "../consts/GameEvents";
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-export default class GameControls extends Phaser.Scene {
+export default class GameMobileControls extends Phaser.Scene {
   preload() {}
 
   create() {

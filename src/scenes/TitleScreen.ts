@@ -55,7 +55,7 @@ export default class TitleScreen extends Phaser.Scene {
       `Total Points: ${this.points}`,
       {
         fontFamily: "Righteous",
-        fontSize: `${Math.min(width * 0.02, 50)}px`,
+        fontSize: `${Math.min(width * 0.05, 50)}px`,
         align: "center",
       }
     );
