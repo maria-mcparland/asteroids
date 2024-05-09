@@ -31,7 +31,7 @@ export default class TitleScreen extends Phaser.Scene {
     const x = width * 0.5;
 
     const fontSize = Math.min(width * 0.2, 225);
-    const title = this.add.text(x, height * -0.3, "Asteroids", {
+    const title = this.add.text(x, height * -0.3, "Space Unicorns", {
       fontFamily: "Righteous",
       fontSize: `${fontSize}px`,
       align: "center",

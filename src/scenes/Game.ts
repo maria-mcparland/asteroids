@@ -27,19 +27,19 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     this.load.setPath("/assets/game/");
-    this.load.image(TextureKeys.PlayerShip, "playerShip3_blue.png");
+    this.load.image(TextureKeys.PlayerShip, "unicorn.png");
     this.load.image(TextureKeys.PlayerLaser, "laserBlue16.png");
 
-    this.load.image(TextureKeys.AsteroidBig1, "meteorBrown_big1.png");
-    this.load.image(TextureKeys.AsteroidBig2, "meteorBrown_big2.png");
-    this.load.image(TextureKeys.AsteroidBig3, "meteorBrown_big3.png");
-    this.load.image(TextureKeys.AsteroidBig4, "meteorBrown_big4.png");
+    this.load.image(TextureKeys.AsteroidBig1, "angry_cloud_1.png");
+    this.load.image(TextureKeys.AsteroidBig2, "angry_cloud_2.png");
+    this.load.image(TextureKeys.AsteroidBig3, "angry_cloud_1.png");
+    this.load.image(TextureKeys.AsteroidBig4, "angry_cloud_2.png");
 
-    this.load.image(TextureKeys.AsteroidMedium1, "meteorBrown_med1.png");
-    this.load.image(TextureKeys.AsteroidMedium2, "meteorBrown_med2.png");
+    this.load.image(TextureKeys.AsteroidMedium1, "angry_cloud_1_medium.png");
+    this.load.image(TextureKeys.AsteroidMedium2, "angry_cloud_2_medium.png");
 
-    this.load.image(TextureKeys.AsteroidSmall1, "meteorBrown_small1.png");
-    this.load.image(TextureKeys.AsteroidSmall2, "meteorBrown_small2.png");
+    this.load.image(TextureKeys.AsteroidSmall1, "angry_cloud_1_small.png");
+    this.load.image(TextureKeys.AsteroidSmall2, "angry_cloud_2_small.png");
 
     this.load.image(TextureKeys.Particles1, "star_04.png");
   }
