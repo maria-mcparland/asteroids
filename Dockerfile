@@ -1,5 +1,5 @@
 # Step 1: Build the application
-FROM node:20-alpine AS build  
+FROM node:21 AS build  
 
 ENV CI=true
 
