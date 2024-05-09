@@ -9,6 +9,7 @@ services:
     networks:
       - mynet
     image: mariamcparland/asteroids
-
+    environment:
+      SWAG_URL: https://unicorn-payments.azurewebsites.net/?
 networks:
   mynet:

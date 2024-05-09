@@ -23,7 +23,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
+game.config.swagUrl = process.env.SWAG_URL;
 registerScenes(game);
 
 let params = new URLSearchParams(document.location.search);
