@@ -25,10 +25,10 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
       - name: Make envfile
-        uses: SpicyPizza/create-envfile@v2.0
+        uses: SpicyPizza/create-envfile@v2.0.3
         with:
-          SWAG_URL: ${{ secrets.SWAG_URL }}
-          KEY: ${{ secrets.KEY }}
+          envkey_SWAG_URL: ${{ secrets.SWAG_URL }}
+          envkey_KEY: ${{ secrets.KEY }}
       - name: Docker Compose build
         run: docker-compose build
         working-directory: ./
