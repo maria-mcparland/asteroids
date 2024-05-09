@@ -12,6 +12,12 @@ export default class TitleScreen extends Phaser.Scene {
 
   points: number = 0;
 
+  init(data) {
+    if (data.points) {
+      this.pointsService.gatherPointsFromURL(data.points);
+    }
+  }
+
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
     this.points = this.pointsService.gatherPointsFromLocalStorage();
@@ -45,7 +51,8 @@ export default class TitleScreen extends Phaser.Scene {
       const points = localStorage.getItem("points");
       const params = new URLSearchParams();
       params.set("points", points || "0");
-      const url = `https://shop.unicorn-payments-dev.com/?${params.toString()}`;
+
+      const url = `${this.game.config.swagUrl}${params.toString()}`;
       window.open(url, "_blank");
     });
 

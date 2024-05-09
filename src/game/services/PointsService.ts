@@ -53,6 +53,15 @@ export default class PointsService implements IPointsService {
     localStorage.setItem("points", encryptedPoints);
   }
 
+  gatherPointsFromURL(encryptedPoints: string) {
+    const unencryptedPoints = parseInt(
+      this.encrpytionService.decryptData(encryptedPoints)
+    );
+    this.updatePointsFromLocalStorage(unencryptedPoints);
+    this.overallPoints = parseInt(
+      this.encrpytionService.decryptData(encryptedPoints)
+    );
+  }
   gatherPointsFromLocalStorage() {
     const pointsStored = localStorage.getItem("points");
 
