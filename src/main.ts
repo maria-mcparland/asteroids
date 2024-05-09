@@ -26,6 +26,9 @@ const game = new Phaser.Game(config);
 
 registerScenes(game);
 
-game.scene.start(SceneKeys.TitleScreen);
+let params = new URLSearchParams(document.location.search);
+let points = params.get("points");
+
+game.scene.start(SceneKeys.TitleScreen, { points: points });
 
 export default game;

@@ -12,6 +12,12 @@ export default class TitleScreen extends Phaser.Scene {
 
   points: number = 0;
 
+  init(data) {
+    if (data.points) {
+      this.pointsService.gatherPointsFromURL(data.points);
+    }
+  }
+
   preload() {
     this.cameras.main.setBackgroundColor("rgba(32,44,64,1)");
     this.points = this.pointsService.gatherPointsFromLocalStorage();
