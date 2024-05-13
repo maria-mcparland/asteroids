@@ -54,9 +54,8 @@ export default class PointsService implements IPointsService {
   }
 
   gatherPointsFromURL(encryptedPoints: string) {
-    const unencryptedPoints = parseInt(
-      this.encrpytionService.decryptData(encryptedPoints)
-    );
+    const unencryptedPoints =
+      parseInt(this.encrpytionService.decryptData(encryptedPoints)) * 100;
     this.updatePointsFromLocalStorage(unencryptedPoints);
     this.overallPoints = parseInt(
       this.encrpytionService.decryptData(encryptedPoints)
